@@ -5,13 +5,13 @@
             "label": "C/C++: clang build active file",
             "command": "/usr/bin/clang++",
             "args": [
-                "-fcolor-diagnostics",
-                "-fansi-escape-codes",
-                "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
-            ],
+    "-std=c++14",
+    "main.cpp",
+    "src/pricer.cpp",
+    "-Iinclude",
+    "-o",
+    "pricer"
+],
             "options": {
                 "cwd": "${fileDirname}"
             },
