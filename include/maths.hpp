@@ -3,10 +3,9 @@
 
 namespace maths {
 
-    // Standard normal cumulative distribution function
+// Standard normal cumulative distribution function
 double norm_cdf(double x) ;
 
-// Add your mathematical function declarations here
 
 }
 

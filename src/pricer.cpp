@@ -2,12 +2,11 @@
 #include "../include/pricer.hpp"
 #include "../include/payoff.hpp"
 #include "../include/maths.hpp"
-#include <random>    // For std::mt19937, std::normal_distribution
-#include <vector>    // For std::vector
-#include <string>    // For std::string
-#include <algorithm> // For std::max
-using namespace maths; // Brings all names from maths into scope
-
+#include <random>    
+#include <vector>    
+#include <string>    
+#include <algorithm> 
+using namespace maths; 
 double Montecarlo(payoff payoff_,double spot, double rate, double vol, double expiry, double strike, unsigned number_paths) {
     std::random_device rd;
     std::mt19937 gen(rd());
