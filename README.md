@@ -1,3 +1,1 @@
-sabr_model
-
-This project implements the SABR model for option pricing and implied volatility analysis, including analytic and Monte Carlo methods, and visualization using matplotlib-cpp.
+The aim of the project is to implement the sabr model using both closed formula and numerical methods.
