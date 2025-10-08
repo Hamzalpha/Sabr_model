@@ -145,10 +145,33 @@ double SABR_Monte_Carlo(payoff payoff_,double K, double F, double year_frac, dou
     
     }
 
+double calculate_vega(double spot, double rate, double vol, double expiry, double strike, double h = 1e-4) {
+    double price_up = blkprice(spot, strike, expiry, vol + h);
+    double price_down = blkprice(spot, strike, expiry, vol - h);
+    return (price_up - price_down) / (2 * h);
+}
 double calculate_delta(double spot, double rate, double vol, double expiry, double strike, double h = 1e-4) {
     double price_up = blkprice(spot + h, strike, expiry, vol);
     double price_down = blkprice(spot - h, strike, expiry, vol);
     return (price_up - price_down) / (2 * h);
+}
+
+void plot_vega_vs_spot(double rate, double vol, double expiry, double strike, double spot_min, double spot_max, int num_points) {
+    std::vector<double> spots(num_points);
+    std::vector<double> vegas(num_points);
+    double dspot = (spot_max - spot_min) / (num_points - 1);
+    for (int j=0;j<num_points;++j){
+        spots[j] = spot_min + j * dspot;
+        vegas[j] = calculate_vega(spots[j], rate, vol, expiry, strike);
+    }
+    plt::figure();
+    plt::plot(spots, vegas);
+    plt::xlabel("Spot");
+    plt::ylabel("Vega");
+    plt::title("Vega vs Spot");
+    plt::grid(true);
+    plt::save("results/vega_vs_spot.png");
+    plt::show();
 }
 
 void plot_delta_vs_spot(double rate, double vol, double expiry, double strike, double spot_min, double spot_max, int num_points) {
