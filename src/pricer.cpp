@@ -145,6 +145,30 @@ double SABR_Monte_Carlo(payoff payoff_,double K, double F, double year_frac, dou
     
     }
 
+double calculate_delta(double spot, double rate, double vol, double expiry, double strike, double h = 1e-4) {
+    double price_up = blkprice(spot + h, strike, expiry, vol);
+    double price_down = blkprice(spot - h, strike, expiry, vol);
+    return (price_up - price_down) / (2 * h);
+}
+
+void plot_delta_vs_spot(double rate, double vol, double expiry, double strike, double spot_min, double spot_max, int num_points) {
+    std::vector<double> spots(num_points);
+    std::vector<double> deltas(num_points);
+    for (int i = 0; i < num_points; ++i) {
+        spots[i] = spot_min + i * (spot_max - spot_min) / (num_points - 1);
+        deltas[i] = calculate_delta(spots[i], rate, vol, expiry, strike);
+    }
+    plt::figure();
+    plt::plot(spots, deltas);
+    plt::xlabel("Spot");
+    plt::ylabel("Delta");
+    plt::title("Delta vs Spot");
+    plt::grid(true);
+    plt::save("results/delta_vs_spot.png");
+    plt::show();
+}
+
+
 
 void plot_sabr_implied_vols_beta(double F, double T, double alpha, double rho, double nu,
                                  double strike_min, double strike_max, int num_points) {
