@@ -31,8 +31,6 @@ int main()
         int number_sabr_paths = 500000;
         double test_price = blk_call;
         plot_sabr_implied_vols_beta(100, 1.0, 0.2, 0.0, 0.3, 80, 120, 50);
-        plot_delta_vs_spot(rate, vol, expiry, strike, 50, 150, 100);
+        plot_vega_vs_spot(rate, vol, expiry, strike, 50, 150, 100);
     return 0;
-
-   
 }

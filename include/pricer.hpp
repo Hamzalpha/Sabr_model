@@ -13,5 +13,7 @@ void plot_sabr_implied_vols_beta(double F, double T, double alpha, double rho, d
                                  double strike_min, double strike_max, int num_points);
 double calculate_delta(double spot, double rate, double vol, double expiry, double strike, double h);
 void plot_delta_vs_spot(double rate, double vol, double expiry, double strike, double spot_min, double spot_max, int num_points) ;
+double calculate_vega(double spot, double rate, double vol, double expiry, double strike, double h );
+void plot_vega_vs_spot(double rate, double vol, double expiry, double strike, double spot_min, double spot_max, int num_points) ;
 
 #endif 
