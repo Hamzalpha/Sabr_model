@@ -226,46 +226,4 @@ void plot_sabr_implied_vols_beta(double F, double T, double alpha, double rho, d
     plt::save("results/sabr_beta.png");
     plt::show();
 }
-
-// Analytical Black-76 vega: dV/d_sigma
-double black_vega(double F, double K, double T, double sigma) {
-    double d1 = (std::log(F / K) + 0.5 * sigma * sigma * T) / (sigma * std::sqrt(T));
-    return F * std::sqrt(T) * norm_pdf(d1);
-}
-
-// SABR Vega using Hagan approximation: dV/d_alpha
-// Chain rule: dV/d_alpha = (dV/d_sigma) * (d_sigma_SABR/d_alpha)
-// - dV/d_sigma computed analytically via black_vega
-// - d_sigma_SABR/d_alpha computed via central finite difference on Hagan formula
-double SABR_vega(double T, double K, double F, double alpha, double beta, double rho, double nu, double h) {
-    double sigma = Forward_SABR(K, F, T, alpha, beta, rho, nu);
-    if (!std::isfinite(sigma) || sigma <= 0)
-        return std::numeric_limits<double>::quiet_NaN();
-
-    double bvega = black_vega(F, K, T, sigma);
-
-    double sigma_up   = Forward_SABR(K, F, T, alpha + h, beta, rho, nu);
-    double sigma_down = Forward_SABR(K, F, T, alpha - h, beta, rho, nu);
-    if (!std::isfinite(sigma_up) || !std::isfinite(sigma_down))
-        return std::numeric_limits<double>::quiet_NaN();
-
-    double dsigma_dalpha = (sigma_up - sigma_down) / (2.0 * h);
-    return bvega * dsigma_dalpha;
-}
-
-void plot_SABR_vega_vs_strike(double F, double T, double alpha, double beta, double rho, double nu,
-                               double strike_min, double strike_max, int num_points) {
-    std::vector<double> strikes(num_points), vegas(num_points);
-    for (int i = 0; i < num_points; ++i) {
-        strikes[i] = strike_min + i * (strike_max - strike_min) / (num_points - 1);
-        vegas[i] = SABR_vega(T, strikes[i], F, alpha, beta, rho, nu);
-    }
-    plt::figure();
-    plt::plot(strikes, vegas);
-    plt::xlabel("Strike");
-    plt::ylabel("SABR Vega (dV/dAlpha)");
-    plt::title("SABR Vega vs Strike (Hagan Approximation)");
-    plt::grid(true);
-    plt::save("results/sabr_vega_vs_strike.png");
-    plt::show();
-}
+   

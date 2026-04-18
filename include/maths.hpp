@@ -3,9 +3,9 @@
 
 namespace maths {
 
-double norm_cdf(double x);
-double norm_pdf(double x);
+double norm_cdf(double x) ;
+
 
 }
 
-#endif
+#endif 
