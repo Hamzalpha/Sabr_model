@@ -1,4 +1,3 @@
-
 #include "../include/pricer.hpp"
 #include "../include/payoff.hpp"
 #include "../include/maths.hpp"
@@ -228,4 +227,3 @@ void plot_sabr_implied_vols_beta(double F, double T, double alpha, double rho, d
     plt::show();
 }
    
-
